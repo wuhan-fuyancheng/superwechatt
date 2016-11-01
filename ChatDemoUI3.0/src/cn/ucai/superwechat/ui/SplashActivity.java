@@ -8,7 +8,8 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import cn.ucai.superwechat.DemoHelper;
-import cn.ucai.superwechat.R;
+import cn.ucar.superwechat.R;
+
 
 /**
  * 开屏页
@@ -22,14 +23,6 @@ public class SplashActivity extends BaseActivity {
 	protected void onCreate(Bundle arg0) {
 		setContentView(R.layout.em_activity_splash);
 		super.onCreate(arg0);
-
-		RelativeLayout rootLayout = (RelativeLayout) findViewById(R.id.splash_root);
-		TextView versionText = (TextView) findViewById(R.id.tv_version);
-
-		versionText.setText(getVersion());
-		AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
-		animation.setDuration(1500);
-		rootLayout.startAnimation(animation);
 	}
 
 	@Override
