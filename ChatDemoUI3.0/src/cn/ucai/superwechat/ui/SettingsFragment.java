@@ -35,7 +35,8 @@ import com.hyphenate.chat.EMOptions;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.DemoHelper;
 import cn.ucai.superwechat.DemoModel;
-import cn.ucai.superwechat.R;
+import cn.ucar.superwechat.R;
+
 import com.hyphenate.easeui.widget.EaseSwitchButton;
 import com.hyphenate.util.EMLog;
 

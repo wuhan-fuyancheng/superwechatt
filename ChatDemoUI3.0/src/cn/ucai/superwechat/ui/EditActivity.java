@@ -6,7 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import cn.ucai.superwechat.R;
+import cn.ucar.superwechat.R;
+
 
 public class EditActivity extends BaseActivity{
 	private EditText editText;

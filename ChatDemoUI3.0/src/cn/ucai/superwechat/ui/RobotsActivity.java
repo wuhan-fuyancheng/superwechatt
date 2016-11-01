@@ -35,9 +35,11 @@ import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMContact;
 import cn.ucai.superwechat.DemoHelper;
-import cn.ucai.superwechat.R;
+
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.RobotUser;
+import cn.ucar.superwechat.R;
+
 import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.ArrayList;

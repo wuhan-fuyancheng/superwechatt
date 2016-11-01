@@ -17,10 +17,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import cn.ucai.superwechat.R;
+
 import cn.ucai.superwechat.adapter.NewFriendsMsgAdapter;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.domain.InviteMessage;
+import cn.ucar.superwechat.R;
 
 import java.util.List;
 

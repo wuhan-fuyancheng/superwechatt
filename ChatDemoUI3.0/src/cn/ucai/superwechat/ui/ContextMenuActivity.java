@@ -20,7 +20,7 @@ import android.view.View;
 import com.easemob.redpacketui.RedPacketConstant;
 import com.hyphenate.chat.EMMessage;
 import cn.ucai.superwechat.Constant;
-import cn.ucai.superwechat.R;
+import cn.ucar.superwechat.R;
 
 public class ContextMenuActivity extends BaseActivity {
     public static final int RESULT_CODE_COPY = 1;

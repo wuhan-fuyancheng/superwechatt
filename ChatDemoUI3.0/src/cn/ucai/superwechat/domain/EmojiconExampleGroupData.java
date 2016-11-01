@@ -1,7 +1,8 @@
 package cn.ucai.superwechat.domain;
 
 import cn.ucai.superwechat.DemoApplication;
-import cn.ucai.superwechat.R;
+import cn.ucar.superwechat.R;
+
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseEmojicon.Type;
 import com.hyphenate.easeui.domain.EaseEmojiconGroupEntity;

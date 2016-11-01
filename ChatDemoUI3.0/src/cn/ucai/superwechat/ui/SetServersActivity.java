@@ -6,7 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import cn.ucai.superwechat.DemoModel;
-import cn.ucai.superwechat.R;
+import cn.ucar.superwechat.R;
+
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 public class SetServersActivity extends BaseActivity {

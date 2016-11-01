@@ -14,7 +14,8 @@ import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import cn.ucai.superwechat.DemoHelper;
-import cn.ucai.superwechat.R;
+import cn.ucar.superwechat.R;
+
 
 public class OfflinePushNickActivity extends BaseActivity {
 

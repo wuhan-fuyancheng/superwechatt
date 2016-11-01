@@ -36,7 +36,8 @@ import android.widget.Toast;
 import com.hyphenate.chat.EMCallStateChangeListener;
 import com.hyphenate.chat.EMClient;
 import cn.ucai.superwechat.DemoHelper;
-import cn.ucai.superwechat.R;
+import cn.ucar.superwechat.R;
+
 import com.hyphenate.util.EMLog;
 
 import java.util.UUID;

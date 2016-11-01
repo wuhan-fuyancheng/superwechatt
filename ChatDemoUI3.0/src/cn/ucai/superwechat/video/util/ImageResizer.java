@@ -12,7 +12,8 @@ import android.os.Build;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.util.Log;
 
-import cn.ucai.superwechat.BuildConfig;
+import cn.ucar.superwechat.BuildConfig;
+
 
 public class ImageResizer extends ImageWorker {
 	private static final String TAG = "ImageResizer";

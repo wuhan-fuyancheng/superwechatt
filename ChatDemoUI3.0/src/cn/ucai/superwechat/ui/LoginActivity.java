@@ -30,8 +30,10 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import cn.ucai.superwechat.DemoApplication;
 import cn.ucai.superwechat.DemoHelper;
-import cn.ucai.superwechat.R;
+
 import cn.ucai.superwechat.db.DemoDBManager;
+import cn.ucar.superwechat.R;
+
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 
 /**

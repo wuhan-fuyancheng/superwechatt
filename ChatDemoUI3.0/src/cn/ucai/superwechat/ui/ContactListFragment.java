@@ -19,10 +19,11 @@ import java.util.Map;
 import com.hyphenate.chat.EMClient;
 import cn.ucai.superwechat.DemoHelper;
 
-import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.widget.ContactItemView;
+import cn.ucar.superwechat.R;
+
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.util.EMLog;
