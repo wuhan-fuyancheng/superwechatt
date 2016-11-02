@@ -33,6 +33,7 @@ import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
 import cn.ucar.superwechat.R;
 
@@ -65,6 +66,14 @@ public class RegisterActivity extends BaseActivity {
         ButterKnife.bind(this);
         mContext=this;
         pd=new ProgressDialog(this);
+        initView();
+
+    }
+
+    private void initView() {
+        ivBack.setVisibility(View.VISIBLE);
+        tvTitleAppname.setVisibility(View.VISIBLE);
+        tvTitleAppname.setText(R.string.register);
     }
 
     public void register() {
@@ -110,8 +119,9 @@ public class RegisterActivity extends BaseActivity {
         NetDao.register(mContext, username, nickname, pwd, new OkHttpUtils.OnCompleteListener<Result>() {
             @Override
             public void onSuccess(Result result) {
+                registerEMServer();
                 if (result!=null){
-                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                    registerEMServer();
                 }else {
                     unregisterAppServer();
                 }
@@ -122,22 +132,18 @@ public class RegisterActivity extends BaseActivity {
 
             }
         });
-
-
-        registerEMServer();
-        unregisterAppServer();
     }
 
     private void unregisterAppServer() {
         NetDao.unregister(mContext, username, new OkHttpUtils.OnCompleteListener<Result>() {
             @Override
             public void onSuccess(Result result) {
+                Toast.makeText(RegisterActivity.this, "取消注册成功", Toast.LENGTH_SHORT).show();
                 pd.dismiss();
             }
-
             @Override
             public void onError(String error) {
-
+                pd.dismiss();
             }
         });
     }
@@ -147,7 +153,7 @@ public class RegisterActivity extends BaseActivity {
             public void run() {
                 try {
                     // call method in SDK
-                    EMClient.getInstance().createAccount(username, pwd);
+                    EMClient.getInstance().createAccount(username, MD5.getMessageDigest(pwd));
                     runOnUiThread(new Runnable() {
                         public void run() {
                             if (!RegisterActivity.this.isFinishing())
@@ -155,7 +161,7 @@ public class RegisterActivity extends BaseActivity {
                             // save current user
                             SuperWeChatHelper.getInstance().setCurrentUserName(username);
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
-                            MFGT.finish(mContext);
+                            MFGT.gotologin(mContext);
                         }
                     });
                 } catch (final HyphenateException e) {
@@ -182,8 +188,8 @@ public class RegisterActivity extends BaseActivity {
         }).start();
     }
 
-    public void back(View view) {
-
+    @Override
+    public void onBackPressed() {
         MFGT.finish(this);
     }
 

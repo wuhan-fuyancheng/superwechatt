@@ -127,6 +127,7 @@
     <string name="answer">接听</string>
     <string name="unable_to_connect">不能连接到服务器</string>
     <string name="newchat">新建聊天</string>
+    <string name="login_problem">登录遇到问题？</string>
     <string name="agree">同意</string>
     <string name="refuse">拒绝</string>
     <string name="not_download">未下载:</string>

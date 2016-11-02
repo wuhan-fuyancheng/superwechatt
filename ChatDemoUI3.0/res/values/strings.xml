@@ -63,6 +63,7 @@
     <string name="userinfo_btn_send_msg">发消息</string>
     <string name="userinfo_btn_send_video">视频聊天</string>
     <string name="userinfo_txt_wechat_no">微信号:</string>
+    <string name="login_problem">登录遇到问题？</string>
 
     <!--contact-->
     <string name="addcontact_title">添加联系人</string>
