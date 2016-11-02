@@ -33,6 +33,8 @@ import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.utils.CommonUtils;
+import cn.ucai.superwechat.utils.I;
 import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
 import cn.ucar.superwechat.R;
@@ -119,11 +121,19 @@ public class RegisterActivity extends BaseActivity {
         NetDao.register(mContext, username, nickname, pwd, new OkHttpUtils.OnCompleteListener<Result>() {
             @Override
             public void onSuccess(Result result) {
-                registerEMServer();
-                if (result!=null){
-                    registerEMServer();
+                if (result==null){
+                    pd.dismiss();
                 }else {
-                    unregisterAppServer();
+                    if (result.isRetMsg()){
+                        registerEMServer();
+                    }else {
+                        if (result.getRetCode()== I.MSG_REGISTER_USERNAME_EXISTS){
+                            CommonUtils.showMsgToast(result.getRetCode());
+                            pd.dismiss();
+                        }else {
+                            unregisterAppServer();
+                        }
+                    }
                 }
             }
 
