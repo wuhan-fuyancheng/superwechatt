@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 
 import butterknife.BindView;
@@ -37,9 +38,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.SuperWeChatHelper;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.SuperWeChatDBManager;
+import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 import cn.ucar.superwechat.R;
 
 /**
@@ -61,6 +68,11 @@ public class LoginActivity extends BaseActivity {
     private boolean progressShow;
     private boolean autoLogin = false;
 
+    String currentUsername;
+    String currentPassword;
+    ProgressDialog pd;
+    LoginActivity mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +83,7 @@ public class LoginActivity extends BaseActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             return;
         }
+        mContext=this;
         setContentView(R.layout.em_activity_login);
         ButterKnife.bind(this);
 
@@ -118,8 +131,8 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(this, R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
             return;
         }
-        String currentUsername = etUsername.getText().toString().trim();
-        String currentPassword = etUserpassword.getText().toString().trim();
+        currentUsername = etUsername.getText().toString().trim();
+        currentPassword = etUserpassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(currentUsername)) {
             Toast.makeText(this, R.string.User_name_cannot_be_empty, Toast.LENGTH_SHORT).show();
@@ -131,7 +144,7 @@ public class LoginActivity extends BaseActivity {
         }
 
         progressShow = true;
-        final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
+        pd = new ProgressDialog(LoginActivity.this);
         pd.setCanceledOnTouchOutside(false);
         pd.setOnCancelListener(new OnCancelListener() {
 
@@ -154,34 +167,70 @@ public class LoginActivity extends BaseActivity {
         final long start = System.currentTimeMillis();
         // call login method
         Log.d(TAG, "EMClient.getInstance().login");
+        loginHuanxin();
+    }
+
+    private void loginbendi() {
+        NetDao.login(mContext, currentUsername, currentPassword, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                L.i(TAG,"s="+s);
+                if (s!=null&&s!=""){
+                    Result result= ResultUtils.getResultFromJson(s, User.class);
+                    if(result!=null&&result.isRetMsg()){
+                        User user= (User) result.getRetData();
+                        if (user!=null){
+                            UserDao dao=new UserDao(mContext);
+                            dao.saveUser(user);
+                            SuperWeChatHelper.getInstance().setCurretUser(user);
+                            loginSuccess();
+                        }else {
+                            pd.dismiss();
+                        }
+                    }else {
+                        pd.dismiss();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
+    }
+
+    private void loginSuccess() {
+        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+        // ** manually load all local groups and conversation
+        EMClient.getInstance().groupManager().loadAllGroups();
+        EMClient.getInstance().chatManager().loadAllConversations();
+
+        // update current user's display name for APNs
+        boolean updatenick = EMClient.getInstance().updateCurrentUserNick(
+                SuperWeChatApplication.currentUserNick.trim());
+        if (!updatenick) {
+            Log.e("LoginActivity", "update current user nick fail");
+        }
+/*
+        if (!LoginActivity.this.isFinishing() && pd.isShowing()) {
+            pd.dismiss();
+        }*/
+        // get user's info (this should be get from App's server or 3rd party service)
+        SuperWeChatHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+        MFGT.gotologin(mContext);
+    }
+
+    private void loginHuanxin() {
         EMClient.getInstance().login(currentUsername, MD5.getMessageDigest(currentPassword), new EMCallBack() {
 
             @Override
             public void onSuccess() {
                 Log.d(TAG, "login: onSuccess");
+                loginbendi();
 
-                // ** manually load all local groups and conversation
-                EMClient.getInstance().groupManager().loadAllGroups();
-                EMClient.getInstance().chatManager().loadAllConversations();
-
-                // update current user's display name for APNs
-                boolean updatenick = EMClient.getInstance().updateCurrentUserNick(
-                        SuperWeChatApplication.currentUserNick.trim());
-                if (!updatenick) {
-                    Log.e("LoginActivity", "update current user nick fail");
-                }
-
-                if (!LoginActivity.this.isFinishing() && pd.isShowing()) {
-                    pd.dismiss();
-                }
-                // get user's info (this should be get from App's server or 3rd party service)
-                SuperWeChatHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-
-                Intent intent = new Intent(LoginActivity.this,
-                        MainActivity.class);
-                startActivity(intent);
-
-                finish();
             }
 
             @Override
@@ -237,5 +286,11 @@ public class LoginActivity extends BaseActivity {
                 MFGT.gotoregister(this);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        pd.dismiss();
+        super.onDestroy();
     }
 }
