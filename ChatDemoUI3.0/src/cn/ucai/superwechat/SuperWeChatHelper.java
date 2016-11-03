@@ -921,7 +921,7 @@ public class SuperWeChatHelper {
     }
 
     public Map<String, User> getAppcontactList() {
-        if (isLoggedIn() && appcontactList == null) {
+        if (isLoggedIn() && (appcontactList == null||appcontactList.size()==0)) {
             appcontactList = demoModel.getAppContactList();
         }
 
@@ -984,7 +984,7 @@ public class SuperWeChatHelper {
 	 /**
      * update user list to cache and database
      *
-     * @param contactList
+     * @param
      */
     public void updateContactList(List<EaseUser> contactInfoList) {
          for (EaseUser u : contactInfoList) {
