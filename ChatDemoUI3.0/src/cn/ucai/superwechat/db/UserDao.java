@@ -70,6 +70,14 @@ public class UserDao {
 	public void saveContactList(List<EaseUser> contactList) {
 	    SuperWeChatDBManager.getInstance().saveContactList(contactList);
 	}
+	/**
+	 * save appContact list
+	 *
+	 * @param appContactList
+	 */
+
+
+
 
 	/**
 	 * get contact list
@@ -80,7 +88,19 @@ public class UserDao {
 		
 	    return SuperWeChatDBManager.getInstance().getContactList();
 	}
-	
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public void saveAppContactList(List<User> appContactList) {
+		SuperWeChatDBManager.getInstance().saveAppContactList(appContactList);
+	}
+	public Map<String, User> getAppContactList() {
+
+		return SuperWeChatDBManager.getInstance().getAppContactList();
+	}
+	public void saveAppContact(User user){
+		SuperWeChatDBManager.getInstance().saveAppContact(user);
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * delete a contact
 	 * @param username

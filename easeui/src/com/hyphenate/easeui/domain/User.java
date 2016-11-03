@@ -1,5 +1,7 @@
 package com.hyphenate.easeui.domain;
 
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+
 import java.io.Serializable;
 
 
@@ -12,12 +14,34 @@ public class User implements Serializable {
 	private String mavatarSuffix;
 	private Integer mavatarType;
 	private String mavatarLastUpdateTime;
+	private String avatar;
+
+	public String getAvatar() {
+		String path="http://101.251.196.90:8000/SuperWeChatServerV2.0/downloadAvatar?name_or_hxid="+getMUserName()+"&avatarType=user_avatar&m_avatar_suffix="+getMAvatarSuffix()+"&width=200&height=200";
+					//http://101.251.196.90:8000/SuperWeChatServerV2.0/downloadAvatar?name_or_hxid=fuyanchengfu&avatarType=user_avatar&m_avatar_suffix=.jpg&width=200&height=200
+		return path;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 
 	/**
 	 * initial letter for nickname
 	 */
 	protected String initialLetter;
-	
+
+	public String getInitialLetter() {
+		if (initialLetter==null){
+			EaseCommonUtils.setAppUserInitialLetter(this);
+		}
+		return initialLetter;
+	}
+
+	public void setInitialLetter(String initialLetter) {
+		this.initialLetter = initialLetter;
+	}
+
 	public User() {
 		super();
 	}
@@ -91,7 +115,7 @@ public class User implements Serializable {
 	}
 
 	public String getMAvatarSuffix() {
-		return mavatarSuffix;
+		return mavatarSuffix==null?".jpg":mavatarSuffix;
 	}
 
 	@Override
