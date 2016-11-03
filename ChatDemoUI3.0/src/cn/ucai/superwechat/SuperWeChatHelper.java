@@ -1295,7 +1295,7 @@ public class SuperWeChatHelper {
         
         setContactList(null);
         setRobotList(null);
-        setAppContactList(null);
+        setAppContactList(null);            //退出登录需要清空，否则下次登录还是上条数据
         getUserProfileManager().reset();
         SuperWeChatDBManager.getInstance().closeDB();
     }
