@@ -62,6 +62,7 @@ import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.runtimepermissions.PermissionsManager;
 import cn.ucai.superwechat.runtimepermissions.PermissionsResultAction;
+import cn.ucai.superwechat.utils.MFGT;
 import cn.ucai.superwechat.widget.DMTabHost;
 import cn.ucai.superwechat.widget.MFViewPager;
 import cn.ucar.superwechat.R;
@@ -354,6 +355,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
     @OnClick(R.id.iv_back)
     public void onClick() {
+        MFGT.finish(this);
     }
 
     @Override

@@ -334,5 +334,11 @@
     <!-- lint -->
     <string name="delete_contact">Delete contact</string>
     <string name="loading_more">loading more...</string>
+    <string name="weixin_name">weixinhao</string>
+    <string name="erweima">二维码名片</string>
+    <string name="myadress">我的地址</string>
+    <string name="sex">性别</string>
+    <string name="area">地区</string>
+    <string name="styleme">个性签名</string>
 
 </resources>
