@@ -269,7 +269,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
     private void updateLocatUser(User u) {
         user=u;
         SuperWeChatHelper.getInstance().saveAppContact(u);//连内存加数据库一起保存
-//dao.save知识保存到数据库
+        //dao.save知识保存到数据库
         EaseUserUtils.setUserNick(u.getMUserName(),tvNickName);
     }
 
