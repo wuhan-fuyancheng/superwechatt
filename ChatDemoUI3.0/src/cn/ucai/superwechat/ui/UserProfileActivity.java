@@ -1,5 +1,6 @@
 package cn.ucai.superwechat.ui;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -25,9 +26,15 @@ import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.domain.User;
+import com.hyphenate.easeui.utils.EaseImageUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +45,7 @@ import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.utils.CommonUtils;
+import cn.ucai.superwechat.utils.I;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MFGT;
 import cn.ucai.superwechat.utils.ResultUtils;
@@ -284,13 +292,44 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                 break;
             case REQUESTCODE_CUTTING:
                 if (data != null) {
-                    setPicToView(data);
+                    updateAppUserAvatar(data);
+
                 }
                 break;
             default:
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void updateAppUserAvatar(final Intent data) {
+        dialog = ProgressDialog.show(this, getString(R.string.dl_update_photo), getString(R.string.dl_waiting));
+        dialog.show();
+        File file=saveBitmapFile(data);
+        NetDao.updateAvatar(this, user.getMUserName(), file, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s!=null){
+                    Result result = ResultUtils.getResultFromJson(s, User.class);
+                    L.i(TAG,"result="+result);
+                    if (result!=null&&result.isRetMsg()){
+                        setPicToView(data);
+                    }else {
+                        dialog.dismiss();
+                        CommonUtils.showShortToast(R.string.toast_updatephoto_fail);
+                    }
+                }else {
+                    dialog.dismiss();
+                    CommonUtils.showShortToast(R.string.toast_updatephoto_fail);
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                dialog.dismiss();
+                CommonUtils.showShortToast(R.string.toast_updatephoto_fail);
+            }
+        });
     }
 
     public void startPhotoZoom(Uri uri) {
@@ -323,7 +362,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
     }
 
     private void uploadUserAvatar(final byte[] data) {
-        dialog = ProgressDialog.show(this, getString(R.string.dl_update_photo), getString(R.string.dl_waiting));
+
         new Thread(new Runnable() {
 
             @Override
@@ -347,7 +386,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
             }
         }).start();
 
-        dialog.show();
+
     }
 
 
@@ -361,4 +400,27 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
     public void onClick() {
         MFGT.finishRight(this);
     }
+
+    public File saveBitmapFile(Intent picdata){
+        Bundle extras=picdata.getExtras();
+        if (extras!=null){
+            Bitmap bitmap=extras.getParcelable("data");
+            String imgpath=EaseImageUtils.getImagePath(user.getMUserName()+ I.AVATAR_SUFFIX_JPG);
+            File file=new File(imgpath); //将要保存图片的路径
+            try {
+                BufferedOutputStream bos=new BufferedOutputStream(new FileOutputStream(file));
+                bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
+                try {
+                    bos.flush();
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            return file;
+        }
+        return null;
+        }
 }
