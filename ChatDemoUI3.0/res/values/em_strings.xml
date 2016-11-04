@@ -340,5 +340,9 @@
     <string name="sex">性别</string>
     <string name="area">地区</string>
     <string name="styleme">个性签名</string>
+    <string name="icon_photo">相册</string>
+    <string name="icon_collect">收藏</string>
+    <string name="icon_money">钱包</string>
+    <string name="icon_biaoqing">表情</string>
 
 </resources>
