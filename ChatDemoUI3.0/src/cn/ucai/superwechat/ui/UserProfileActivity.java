@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -31,11 +33,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.superwechat.SuperWeChatHelper;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.utils.CommonUtils;
+import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 import cn.ucar.superwechat.R;
 
 public class UserProfileActivity extends BaseActivity implements OnClickListener {
-
+    String TAG=UserProfileActivity.class.getSimpleName();
     private static final int REQUESTCODE_PICK = 1;
     private static final int REQUESTCODE_CUTTING = 2;
     @BindView(R.id.tv_me_weixinname)
@@ -50,6 +59,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
     private TextView tvNickName;
     private ProgressDialog dialog;
     private RelativeLayout rlNickName;
+    RelativeLayout layoutavatar;
+    TextView weixinname;
+    User user=EaseUserUtils.getCurrentAppUserInfo();
 
 
     @Override
@@ -62,6 +74,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
     }
 
     private void initView() {
+        weixinname= (TextView) findViewById(R.id.tv_me_weixinname);
+        layoutavatar= (RelativeLayout) findViewById(R.id.layout_me_avatar);
         headAvatar = (ImageView) findViewById(R.id.user_head_avatar);
         headPhotoUpdate = (ImageView) findViewById(R.id.user_head_headphoto_update);
         tvNickName = (TextView) findViewById(R.id.user_nickname);
@@ -80,7 +94,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
             headPhotoUpdate.setVisibility(View.VISIBLE);
             iconRightArrow.setVisibility(View.VISIBLE);
             rlNickName.setOnClickListener(this);
-            headAvatar.setOnClickListener(this);
+            layoutavatar.setOnClickListener(this);
+            weixinname.setOnClickListener(this);
         } else {
             headPhotoUpdate.setVisibility(View.GONE);
             iconRightArrow.setVisibility(View.INVISIBLE);
@@ -102,19 +117,26 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.user_head_avatar:
+            case R.id.tv_me_weixinname:
+                CommonUtils.showShortToast(getString(R.string.no_click));
+                break;
+            case R.id.layout_me_avatar:
                 uploadHeadPhoto();
                 break;
             case R.id.rl_nickname:
                 final EditText editText = new EditText(this);
+                editText.setText(user.getMUserNick());
                 new Builder(this).setTitle(R.string.setting_nickname).setIcon(android.R.drawable.ic_dialog_info).setView(editText)
                         .setPositiveButton(R.string.dl_ok, new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String nickString = editText.getText().toString();
+                                String nickString = editText.getText().toString().trim();
                                 if (TextUtils.isEmpty(nickString)) {
                                     Toast.makeText(UserProfileActivity.this, getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }if (nickString.equals(user.getMUserNick())){
+                                    CommonUtils.showShortToast(getString(R.string.no_nick_changed));
                                     return;
                                 }
                                 updateRemoteNick(nickString);
@@ -188,6 +210,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
             public void run() {
                 boolean updatenick = SuperWeChatHelper.getInstance().getUserProfileManager().updateCurrentUserNickName(nickName);
                 if (UserProfileActivity.this.isFinishing()) {
+
                     return;
                 }
                 if (!updatenick) {
@@ -199,6 +222,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                         }
                     });
                 } else {
+                    updateAppnick(nickName);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -211,6 +235,42 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                 }
             }
         }).start();
+    }
+
+    private void updateAppnick(String nickName) {
+        NetDao.updateNick(this, nickName, user.getMUserName(), new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s!=null){
+                    Result result= ResultUtils.getResultFromJson(s,User.class);
+                    L.i(TAG,"result="+result);
+                    if (result!=null&&result.isRetMsg()){
+                        User u= (User) result.getRetData();
+                        updateLocatUser(u);
+                    }else {
+                        CommonUtils.showShortToast(getString(R.string.update_nick_fail));
+                        dialog.dismiss();
+                    }
+                }else{
+                    CommonUtils.showShortToast(getString(R.string.update_nick_fail));
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                L.i(TAG,"error="+error);
+                CommonUtils.showShortToast(getString(R.string.update_nick_fail));
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void updateLocatUser(User u) {
+        user=u;
+        SuperWeChatHelper.getInstance().saveAppContact(u);//连内存加数据库一起保存
+//dao.save知识保存到数据库
+        EaseUserUtils.setUserNick(u.getMUserName(),tvNickName);
     }
 
     @Override

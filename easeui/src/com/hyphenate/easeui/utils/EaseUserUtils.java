@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.controller.EaseUI.EaseUserProfileProvider;
@@ -37,6 +38,13 @@ public class EaseUserUtils {
         if(userProvider != null)
             return userProvider.getAppUser(username);
 
+        return null;
+    }
+    public static User getCurrentAppUserInfo(){
+        String username= EMClient.getInstance().getCurrentUser();
+        if (userProvider!=null){
+            return userProvider.getAppUser(username);
+        }
         return null;
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////

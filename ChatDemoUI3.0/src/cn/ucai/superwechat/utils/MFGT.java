@@ -3,6 +3,8 @@ package cn.ucai.superwechat.utils;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.hyphenate.chat.EMClient;
+
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
@@ -43,7 +45,10 @@ public class MFGT {
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
     public static void gotoUserProfile(Activity context){
-        startActivity(context, UserProfileActivity.class);
+        Intent intent=new Intent(context,UserProfileActivity.class);
+        intent.putExtra("setting",true);
+        intent.putExtra("username",EMClient.getInstance().getCurrentUser());
+        context.startActivity(intent);
         context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
     public static void gotoSettingActivity(Activity context){

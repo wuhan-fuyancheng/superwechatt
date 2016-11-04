@@ -385,5 +385,7 @@
     <string name="icon_collect">收藏</string>
     <string name="icon_money">钱包</string>
     <string name="icon_biaoqing">表情</string>
-
+    <string name="no_click">微信号不可修改</string>
+    <string name="no_nick_changed">昵称未修改</string>
+    <string name="update_nick_fail">昵称修改失败</string>
 </resources>

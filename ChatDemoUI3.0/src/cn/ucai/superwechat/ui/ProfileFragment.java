@@ -79,4 +79,10 @@ public class ProfileFragment extends Fragment {
                 break;
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 }
