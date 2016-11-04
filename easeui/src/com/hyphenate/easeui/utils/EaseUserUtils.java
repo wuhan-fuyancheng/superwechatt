@@ -98,5 +98,8 @@ public class EaseUserUtils {
             }
         }
     }
-    
+
+    public static void setUsername(String mUserName, TextView tvPrWeixinname) {
+        tvPrWeixinname.setText("微信号："+mUserName);
+    }
 }

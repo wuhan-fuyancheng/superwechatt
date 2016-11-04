@@ -6,7 +6,6 @@
     tools:context="cn.ucai.superwechat.ui.ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <include layout="@layout/view_layout_title"/>
     <RelativeLayout
         android:id="@+id/layout_pr_avatar"
         android:background="#ffffff"
@@ -16,9 +15,18 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         >
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dip"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_avatar"
+            />
         <TextView
             android:id="@+id/tv_pr_nick"
-            android:layout_toRightOf="@id/iv_user_avatar"
+            android:layout_toRightOf="@+id/iv_user_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -29,7 +37,7 @@
             />
         <TextView
             android:id="@+id/tv_pr_weixinname"
-            android:layout_toRightOf="@id/iv_user_avatar"
+            android:layout_toRightOf="@+id/iv_user_avatar"
             android:layout_below="@id/tv_pr_nick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,15 +47,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             />
-        <ImageView
-            android:id="@+id/iv_user_avatar"
-            android:layout_width="60dip"
-            android:layout_height="60dip"
-            android:layout_alignParentTop="true"
-            android:layout_margin="8dip"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_avatar"
-            />
+
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/icon_me_photo"
@@ -108,7 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#ffffff"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         >
         <ImageView
             android:id="@+id/iv_pr_im3"
@@ -135,7 +135,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#ffffff"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         >
         <ImageView
             android:id="@+id/iv_pr_im4"
@@ -162,7 +162,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#ffffff"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         >
         <ImageView
             android:id="@+id/iv_pr_im5"

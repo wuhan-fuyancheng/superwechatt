@@ -6,6 +6,8 @@ import android.content.Intent;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
+import cn.ucai.superwechat.ui.SettingActivity;
+import cn.ucai.superwechat.ui.UserProfileActivity;
 import cn.ucar.superwechat.R;
 
 
@@ -13,6 +15,10 @@ public class MFGT {
     public static void finish(Activity activity){
         activity.finish();
         activity.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    }
+    public static void finishRight(Activity context){
+        context.finish();
+        context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
     public static void gotoMainActivity(Activity context){
         startActivity(context, MainActivity.class);
@@ -35,6 +41,14 @@ public class MFGT {
     public static void gotoregister(Activity context){
         startActivity(context, RegisterActivity.class);
         context.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+    }
+    public static void gotoUserProfile(Activity context){
+        startActivity(context, UserProfileActivity.class);
+        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    }
+    public static void gotoSettingActivity(Activity context){
+        startActivity(context, SettingActivity.class);
+        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
 
 

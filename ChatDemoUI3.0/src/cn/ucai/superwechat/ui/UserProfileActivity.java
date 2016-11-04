@@ -299,6 +299,6 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
     @OnClick(R.id.iv_back)
     public void onClick() {
-        MFGT.finish(this);
+        MFGT.finishRight(this);
     }
 }
