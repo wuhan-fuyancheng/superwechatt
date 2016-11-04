@@ -282,7 +282,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.iv_back:
-                MFGT.finish(this);
+                MFGT.finishRight(this);
                 break;
             case R.id.rl_switch_speaker:
                 if (speakerSwitch.isSwitchOpen()) {

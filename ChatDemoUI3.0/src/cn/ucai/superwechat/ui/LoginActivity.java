@@ -220,7 +220,7 @@ public class LoginActivity extends BaseActivity {
         }*/
         // get user's info (this should be get from App's server or 3rd party service)
         SuperWeChatHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-        MFGT.gotologin(mContext);
+        MFGT.logingotoMainacitvity(mContext);
     }
 
     private void loginHuanxin() {

@@ -50,7 +50,15 @@ public class MFGT {
         startActivity(context, SettingActivity.class);
         context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
+    public static void logingotoMainacitvity(Activity context){
+        Intent intent = new Intent(context,
+               MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
 
+    }
 
 
 
