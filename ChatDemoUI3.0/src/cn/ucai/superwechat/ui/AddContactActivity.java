@@ -33,6 +33,7 @@ import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MFGT;
 import cn.ucai.superwechat.utils.ResultUtils;
@@ -95,19 +96,25 @@ public class AddContactActivity extends BaseActivity {
                     Result result= ResultUtils.getResultFromJson(s, User.class);
                     L.i(TAG,"result="+result);
                     if (result!=null&&result.isRetMsg()){
-
+                        User user= (User) result.getRetData();
+                        if (user!=null){
+                            MFGT.gotoAddFriend(AddContactActivity.this,user);
+                        }
                     }else {
-
+                        CommonUtils.showShortToast(R.string.search_user_fail);
+                        progressDialog.dismiss();
                     }
 
                 }else {
-
+                    CommonUtils.showShortToast(R.string.search_user_fail);
+                    progressDialog.dismiss();
                 }
             }
 
             @Override
             public void onError(String error) {
-
+                progressDialog.dismiss();
+                CommonUtils.showShortToast(R.string.search_user_fail);
             }
         });
     }

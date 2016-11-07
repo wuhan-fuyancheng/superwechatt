@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.User;
 
 import cn.ucai.superwechat.ui.AddContactActivity;
+import cn.ucai.superwechat.ui.FriendActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
@@ -67,6 +69,13 @@ public class MFGT {
     }
     public static void gotoAddContact(Activity context){
         startActivity(context, AddContactActivity.class);
+        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    }
+    public static void gotoAddFriend(Activity context, User user){
+        Intent intent=new Intent();
+        intent.setClass(context,FriendActivity.class);
+        intent.putExtra(I.User.USER_NAME,user);
+        context.startActivity(intent);
         context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
 
