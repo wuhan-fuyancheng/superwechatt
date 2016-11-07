@@ -66,6 +66,7 @@ public class AddContactActivity extends BaseActivity {
         tvTitleFindfriends.setVisibility(View.VISIBLE);
         tvTitleAppname.setText(getString(R.string.menu_addfriend));
         tvTitleFindfriends.setText(getString(R.string.search));
+        tvTitleFindfriends.setTextColor(getResources().getColor(R.color.white));
     }
 
 

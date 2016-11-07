@@ -12,6 +12,7 @@ import com.hyphenate.easeui.utils.EaseUserUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.utils.I;
 import cn.ucai.superwechat.utils.MFGT;
 import cn.ucar.superwechat.R;
@@ -35,6 +36,7 @@ public class FriendActivity extends BaseActivity {
     @BindView(R.id.bt_friend_shiping)
     Button btFriendShiping;
     User user=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +54,11 @@ public class FriendActivity extends BaseActivity {
         tvTitleAppname.setVisibility(View.VISIBLE);
         tvTitleAppname.setText(getString(R.string.userinfo_txt_profile));
         setUserInfo();
+        isFriends();
     }
     private void setUserInfo() {
         EaseUserUtils.setUserAvatar(this,user.getMUserName(),ivFrendAvatar);
-        EaseUserUtils.setUserNick(user.getMUserName(),tvFrendNick);
+        EaseUserUtils.setUserNick(user.getMUserNick(),tvFrendNick);
         EaseUserUtils.setUsername(user.getMUserName(),tvFrendName);
     }
 
@@ -72,5 +75,15 @@ public class FriendActivity extends BaseActivity {
             case R.id.bt_friend_shiping:
                 break;
         }
+    }
+
+    public void isFriends() {
+        if (SuperWeChatHelper.getInstance().getAppcontactList().containsKey(user.getMUserName())){
+            btFriendSendmessage.setVisibility(View.VISIBLE);
+            btFriendShiping.setVisibility(View.VISIBLE);
+        }else {
+            btFriendAddcontact.setVisibility(View.VISIBLE);
+        }
+
     }
 }
