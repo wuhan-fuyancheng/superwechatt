@@ -1,6 +1,5 @@
 package cn.ucai.superwechat.ui;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -15,7 +14,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,7 +41,6 @@ import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
-import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.I;
 import cn.ucai.superwechat.utils.L;
@@ -313,7 +310,13 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                     Result result = ResultUtils.getResultFromJson(s, User.class);
                     L.i(TAG,"result="+result);
                     if (result!=null&&result.isRetMsg()){
+                        User u= (User) result.getRetData();
+                        dialog.dismiss();
                         setPicToView(data);
+                        SuperWeChatHelper.getInstance().saveAppContact(u);  //保存至缓存（内存和数据库）
+                        Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
+                                Toast.LENGTH_SHORT).show();
+
                     }else {
                         dialog.dismiss();
                         CommonUtils.showShortToast(R.string.toast_updatephoto_fail);
@@ -356,7 +359,6 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
             Bitmap photo = extras.getParcelable("data");
             Drawable drawable = new BitmapDrawable(getResources(), photo);
             headAvatar.setImageDrawable(drawable);
-            uploadUserAvatar(Bitmap2Bytes(photo));
         }
 
     }
