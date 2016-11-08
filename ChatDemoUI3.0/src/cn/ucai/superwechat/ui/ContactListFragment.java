@@ -21,6 +21,7 @@ import cn.ucai.superwechat.SuperWeChatHelper;
 
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.utils.MFGT;
 import cn.ucai.superwechat.widget.ContactItemView;
 import cn.ucar.superwechat.R;
 
@@ -180,8 +181,8 @@ public class ContactListFragment extends EaseContactListFragment {
         public void onClick(View v) {
             switch (v.getId()) {
             case R.id.application_item:
-                // 进入申请与通知页面
-                startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
+                // 进入新的朋友
+                MFGT.gotoNewFriendAcitivity(getActivity());
                 break;
             case R.id.group_item:
                 // 进入群聊列表页面
@@ -236,7 +237,7 @@ public class ContactListFragment extends EaseContactListFragment {
 	/**
 	 * delete contact
 	 * 
-	 * @param toDeleteUser
+	 * @param deleteContact
 	 */
 	public void deleteContact(final EaseUser tobeDeleteUser) {
 		String st1 = getResources().getString(R.string.deleting);
