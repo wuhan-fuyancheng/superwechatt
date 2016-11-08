@@ -69,6 +69,7 @@ public class FriendActivity extends BaseActivity {
                 MFGT.finishRight(this);
                 break;
             case R.id.bt_friend_addcontact:
+            MFGT.gotoYanzhengAcitiviy(this,user.getMUserName());
                 break;
             case R.id.bt_friend_sendmessage:
                 break;
