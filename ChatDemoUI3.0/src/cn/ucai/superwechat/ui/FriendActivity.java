@@ -72,6 +72,7 @@ public class FriendActivity extends BaseActivity {
             MFGT.gotoYanzhengAcitiviy(this,user.getMUserName());
                 break;
             case R.id.bt_friend_sendmessage:
+            MFGT.gotoChat(this,user.getMUserName());
                 break;
             case R.id.bt_friend_shiping:
                 break;

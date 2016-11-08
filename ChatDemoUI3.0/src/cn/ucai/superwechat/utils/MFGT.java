@@ -8,6 +8,7 @@ import com.hyphenate.easeui.domain.User;
 
 import cn.ucai.superwechat.ui.AddContactActivity;
 import cn.ucai.superwechat.ui.AddFriendActivity;
+import cn.ucai.superwechat.ui.ChatActivity;
 import cn.ucai.superwechat.ui.FriendActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
@@ -91,8 +92,13 @@ public class MFGT {
         startActivity(context, NewFriendsMsgActivity.class);
         context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
-
-
+    public static void gotoChat(Activity context,String username){
+        Intent intent=new Intent();
+        intent.setClass(context,ChatActivity.class);
+        intent.putExtra("userId",username);
+        context.startActivity(intent);
+        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    }
 
 
 }

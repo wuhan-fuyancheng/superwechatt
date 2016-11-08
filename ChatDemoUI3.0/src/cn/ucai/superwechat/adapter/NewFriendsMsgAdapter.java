@@ -96,7 +96,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 					Result result= ResultUtils.getResultFromJson(s, User.class);
 					User u= (User) result.getRetData();
 					EaseUserUtils.setUserNick(u.getMUserNick(),holder.name);
-					EaseUserUtils.setAppUserAvatar(context,u,holder.avator);
+					EaseUserUtils.setUserAvatar(context,u.getMUserName(),holder.avator);
 				}
 				}
 
@@ -119,16 +119,16 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			// holder.time.setText(DateUtils.getTimestampString(new
 			// Date(msg.getTime())));
 			if (msg.getStatus() == InviteMesageStatus.BEAGREED) {
-				holder.status.setVisibility(View.INVISIBLE);
+				holder.status.setVisibility(View.GONE);
 				holder.reason.setText(str1);
 			} else if (msg.getStatus() == InviteMesageStatus.BEINVITEED || msg.getStatus() == InviteMesageStatus.BEAPPLYED ||
 			        msg.getStatus() == InviteMesageStatus.GROUPINVITATION) {
 			    holder.agree.setVisibility(View.VISIBLE);
                 holder.agree.setEnabled(true);
-                holder.agree.setBackgroundResource(android.R.drawable.btn_default);
+               // holder.agree.setBackgroundResource(android.R.drawable.btn_default);
                 holder.agree.setText(str2);
 			    
-				holder.status.setVisibility(View.VISIBLE);
+				holder.status.setVisibility(View.GONE);
 				holder.status.setEnabled(true);
 				holder.status.setBackgroundResource(android.R.drawable.btn_default);
 				holder.status.setText(str7);
