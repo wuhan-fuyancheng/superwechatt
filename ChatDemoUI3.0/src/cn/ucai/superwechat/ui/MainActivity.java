@@ -80,10 +80,10 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //	private TextView unreadAddressLable;
 //
 //	private Button[] mTabs;
-//	private ContactListFragment contactListFragment;
+	private ContactListFragment contactListFragment;
 //	private Fragment[] fragments;
 //	private int index;
-//	private int currentTabIndex;
+	private int currentTabIndex;
     // user logged into another device
     public boolean isConflict = false;
     @BindView(R.id.tv_title_left_weixin)
@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         ButterKnife.bind(this);
         // runtime permission for android 6.0, just require all permissions here for simple
         requestPermissions();
-
+        contactListFragment = new ContactListFragment();
         initView();
         umeng();
         checkAccount();
@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         inviteMessgeDao = new InviteMessgeDao(this);
         UserDao userDao = new UserDao(this);
 //		conversationListFragment = new ConversationListFragment();
-//		contactListFragment = new ContactListFragment();
+
 //		SettingsFragment settingFragment = new SettingsFragment();
 //		fragments = new Fragment[] { conversationListFragment, contactListFragment, settingFragment};
 //
@@ -219,10 +219,11 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         viewPager.setAdapter(mAdapter);
         viewPager.setOffscreenPageLimit(4);
         mAdapter.addFragment(new ConversationListFragment(), getString(R.string.app_name));
-        mAdapter.addFragment(new ContactListFragment(), getString(R.string.contacts));
+        mAdapter.addFragment(contactListFragment, getString(R.string.contacts));
         mAdapter.addFragment(new DiscoverFragment(), getString(R.string.discover));
         mAdapter.addFragment(new ProfileFragment(), getString(R.string.me));
         mAdapter.notifyDataSetChanged();
+        currentTabIndex=0;
         layoutTabhost.setChecked(0);
         layoutTabhost.setOnCheckedChangeListener(this);
         viewPager.setOnPageChangeListener(this);
@@ -386,6 +387,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
     @Override
     public void onCheckedChange(int checkedPosition, boolean byUser) {
+        currentTabIndex=checkedPosition;
         viewPager.setCurrentItem(checkedPosition, true);
     }
 
@@ -396,6 +398,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
     @Override
     public void onPageSelected(int position) {
+        currentTabIndex=position;
         layoutTabhost.setChecked(position);
         viewPager.setCurrentItem(position);
     }
@@ -484,11 +487,12 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         runOnUiThread(new Runnable() {
             public void run() {
                 int count = getUnreadAddressCountTotal();
-//				if (count > 0) {
-//					unreadAddressLable.setVisibility(View.VISIBLE);
-//				} else {
-//					unreadAddressLable.setVisibility(View.INVISIBLE);
-//				}
+				if (count > 0) {
+                    layoutTabhost.setHasNew(1,true);
+				} else {
+                    layoutTabhost.setHasNew(1,false);
+
+                }
             }
         });
 
