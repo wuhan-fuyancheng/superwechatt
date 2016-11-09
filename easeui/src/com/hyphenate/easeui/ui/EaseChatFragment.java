@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.baidu.platform.comapi.map.I;
 import com.hyphenate.EMChatRoomChangeListener;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
@@ -452,6 +453,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     public void onBackPressed() {
         if (inputMenu.onBackPressed()) {
+            /*Intent intent=new Intent(getContext(),Main);
+            intent.putExtra()*/
             getActivity().finish();
             if(chatType == EaseConstant.CHATTYPE_GROUP){
                 EaseAtMessageHelper.get().removeAtMeGroup(toChatUsername);
