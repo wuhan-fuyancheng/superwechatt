@@ -73,6 +73,13 @@ public class NetDao {
                 .targetClass(String.class)
                 .execute(listener);
     }
+    public static void deleteContact(Context context, String name,String cusername,OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_CONTACT)
+                .addParam(I.Contact.USER_NAME,name)
+                .addParam(I.Contact.CU_NAME,cusername)
+                .targetClass(String.class)
+                .execute(listener);}
 
 
 }

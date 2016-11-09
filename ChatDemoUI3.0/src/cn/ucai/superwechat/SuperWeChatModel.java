@@ -43,6 +43,10 @@ public class SuperWeChatModel {
         UserDao dao = new UserDao(context);
         dao.saveAppContact(user);
     }
+    public void deleAppContact(String username){
+        UserDao dao=new UserDao(context);
+        dao.deleteAppContact(username);
+    }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     public Map<String, EaseUser> getContactList() {
         UserDao dao = new UserDao(context);

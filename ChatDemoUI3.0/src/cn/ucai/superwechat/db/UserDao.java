@@ -108,6 +108,9 @@ public class UserDao {
 	public void deleteContact(String username){
 	    SuperWeChatDBManager.getInstance().deleteContact(username);
 	}
+	public void deleteAppContact(String username){
+		SuperWeChatDBManager.getInstance().deleteAppContact(username);
+	}
 	
 	/**
 	 * save a contact

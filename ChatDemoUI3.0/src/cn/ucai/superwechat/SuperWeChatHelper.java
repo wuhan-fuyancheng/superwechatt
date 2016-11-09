@@ -668,7 +668,7 @@ public class SuperWeChatHelper {
             localUsers.remove(username);
             userDao.deleteContact(username);
             inviteMessgeDao.deleteMessage(username);
-
+            SuperWeChatHelper.getInstance().delAppContact(username);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
 
@@ -944,6 +944,10 @@ public class SuperWeChatHelper {
         appcontactList.put(user.getMUserName(), user);
         demoModel.saveAppContact(user);
     }
+    public void delAppContact(String username){
+        getAppcontactList().remove(username);
+        demoModel.deleAppContact(username);
+    }
 
     public Map<String, User> getAppcontactList() {
         if (isLoggedIn() && (appcontactList == null||appcontactList.size()==0)) {
@@ -1088,7 +1092,7 @@ public class SuperWeChatHelper {
             syncBlackListListeners.remove(listener);
         }
     }
-	
+
 	/**
     * Get group list from server
     * This method will save the sync state
