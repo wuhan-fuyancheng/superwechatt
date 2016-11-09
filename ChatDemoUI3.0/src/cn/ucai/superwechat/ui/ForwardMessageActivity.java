@@ -17,14 +17,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
-import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
 
 import cn.ucar.superwechat.R;
 
 public class ForwardMessageActivity extends PickContactNoCheckboxActivity {
-	private EaseUser selectUser;
+	private User selectUser;
 	private String forward_msg_id;
 
 	 
@@ -37,7 +37,7 @@ public class ForwardMessageActivity extends PickContactNoCheckboxActivity {
 	@Override
 	protected void onListItemClick(int position) {
 		selectUser = contactAdapter.getItem(position);
-		new EaseAlertDialog(this, null, getString(R.string.confirm_forward_to, selectUser.getNick()), null, new AlertDialogUser() {
+		new EaseAlertDialog(this, null, getString(R.string.confirm_forward_to, selectUser.getMUserNick()), null, new AlertDialogUser() {
             @Override
             public void onResult(boolean confirmed, Bundle bundle) {
                 if (confirmed) {
@@ -49,7 +49,7 @@ public class ForwardMessageActivity extends PickContactNoCheckboxActivity {
                     }
                     Intent intent = new Intent(ForwardMessageActivity.this, ChatActivity.class);
                     // it is single chat
-                    intent.putExtra("userId", selectUser.getUsername());
+                    intent.putExtra("userId", selectUser.getMUserName());
                     intent.putExtra("forward_msg_id", forward_msg_id);
                     startActivity(intent);
                     finish();
