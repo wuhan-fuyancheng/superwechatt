@@ -80,11 +80,12 @@ public class EaseUserUtils {
         	}
         }
     }*/
-    public static void setAppUserAvatar(Context context, User user, ImageView imageView){
-        Log.i("main","user_"+user.toString());
-        /*if (user==null){
+   /* public static void setAppUserAvatar(Context context, String username, ImageView imageView){
+        User user = getAppUserInfo(username);
+      //  Log.i("main","user_"+user.toString());
+        if (user==null){
             user=new User(username);
-        }*/
+        }
         if(user != null && user.getAvatar() != null){
             try {
                 Log.i("main","avatar_"+user.getAvatar());
@@ -97,7 +98,7 @@ public class EaseUserUtils {
         }else{
             Glide.with(context).load(R.drawable.ease_default_avatar).into(imageView);
         }
-    }
+    }*/
     public static void setUserAvatar(Context context, String username, ImageView imageView){
         User user = getAppUserInfo(username);
         Log.i("main","user_"+user.toString());

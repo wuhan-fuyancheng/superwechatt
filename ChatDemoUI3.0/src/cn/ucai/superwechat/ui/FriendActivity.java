@@ -43,6 +43,7 @@ public class FriendActivity extends BaseActivity {
         setContentView(R.layout.activity_friend);
         ButterKnife.bind(this);
         user= (User) getIntent().getSerializableExtra(I.User.USER_NAME);
+
         if (user==null){
             MFGT.finishRight(this);
         }

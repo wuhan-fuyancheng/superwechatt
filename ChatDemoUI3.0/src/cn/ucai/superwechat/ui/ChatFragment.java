@@ -31,6 +31,7 @@ import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.domain.EmojiconExampleGroupData;
 import cn.ucai.superwechat.domain.RobotUser;
+import cn.ucai.superwechat.utils.MFGT;
 import cn.ucai.superwechat.widget.ChatRowVoiceCall;
 import cn.ucar.superwechat.R;
 
@@ -96,6 +97,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
                 isRobot = true;
             }
         }
+
         super.setUpView();
         // set click listener
         titleBar.setLeftLayoutClickListener(new OnClickListener() {
@@ -255,9 +257,10 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public void onAvatarClick(String username) {
         //handling when user click avatar
-        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), FriendActivity.class);
+//        intent.putExtra("username", username);
+//        startActivity(intent);
+        MFGT.gotoAddFriend(getActivity(),SuperWeChatHelper.getInstance().getAppcontactList().get(username));
     }
     
     @Override
