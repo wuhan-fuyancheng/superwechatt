@@ -31,6 +31,7 @@ import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.domain.EmojiconExampleGroupData;
 import cn.ucai.superwechat.domain.RobotUser;
+import cn.ucai.superwechat.utils.I;
 import cn.ucai.superwechat.utils.MFGT;
 import cn.ucai.superwechat.widget.ChatRowVoiceCall;
 import cn.ucar.superwechat.R;
@@ -90,6 +91,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 
     @Override
     protected void setUpView() {
+        titleBar.setBackgroundColor(getResources().getColor(R.color.black2));
         setChatFragmentListener(this);
         if (chatType == Constant.CHATTYPE_SINGLE) {
             Map<String,RobotUser> robotMap = SuperWeChatHelper.getInstance().getRobotList();
@@ -104,10 +106,11 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 
             @Override
             public void onClick(View v) {
-                if (EasyUtils.isSingleActivity(getActivity())) {
+             //   if (EasyUtils.isSingleActivity(getActivity())) {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.putExtra(I.ACTION_BACK_CONVERSATION,true);
                     startActivity(intent);
-                }
+               // }
                 onBackPressed();
             }
         });
