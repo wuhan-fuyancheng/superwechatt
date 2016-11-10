@@ -2,4 +2,5 @@
 <resources>
     <string name="please_enter_ausername">请输入用户名</string>
     <string name="search_user_fail">没有查找到该用户</string>
+    <string name="create_group_success">创建成功</string>
 </resources>

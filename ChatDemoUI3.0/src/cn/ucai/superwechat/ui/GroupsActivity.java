@@ -32,6 +32,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.adapter.GroupAdapter;
+import cn.ucai.superwechat.utils.MFGT;
 import cn.ucar.superwechat.R;
 
 import com.hyphenate.exceptions.HyphenateException;
@@ -109,10 +110,12 @@ public class GroupsActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 1) {
 					// create a new group
-					startActivityForResult(new Intent(GroupsActivity.this, NewGroupActivity.class), 0);
+					MFGT.gotoNewGroup(GroupsActivity.this);
+				//	startActivityForResult(new Intent(GroupsActivity.this, NewGroupActivity.class), 0);
 				} else if (position == 2) {
 					// join a public group
-					startActivityForResult(new Intent(GroupsActivity.this, PublicGroupsActivity.class), 0);
+					MFGT.gotoPublicGroup(GroupsActivity.this);
+					//startActivityForResult(new Intent(GroupsActivity.this, PublicGroupsActivity.class), 0);
 				} else {
 					// enter group chat
 					Intent intent = new Intent(GroupsActivity.this, ChatActivity.class);

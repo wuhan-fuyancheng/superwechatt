@@ -3,6 +3,7 @@
 
     <string name="app_name">微信</string>
     <string name="weixin_name">微信号</string>
+    <string name="group_avatar">群头像</string>
     <string name="app_slogon">即时通讯云领导者</string>
     <string name="text_ack_msg">已读</string>
     <string name="text_delivered_msg">送达</string>
