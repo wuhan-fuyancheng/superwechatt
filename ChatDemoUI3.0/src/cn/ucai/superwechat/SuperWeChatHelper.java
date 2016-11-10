@@ -42,6 +42,7 @@ import cn.ucai.superwechat.ui.ChatActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.VideoCallActivity;
 import cn.ucai.superwechat.ui.VoiceCallActivity;
+import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.PreferenceManager;
 import cn.ucai.superwechat.utils.ResultUtils;
 import cn.ucar.superwechat.R;
@@ -68,6 +69,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.ListView;
 
 public class SuperWeChatHelper {
     /**
@@ -1151,11 +1153,44 @@ public class SuperWeChatHelper {
    }
    
    public void asyncFetchContactsFromServer(final EMValueCallBack<List<String>> callback){
+
        if(isSyncingContactsWithServer){
            return;
        }
-       
        isSyncingContactsWithServer = true;
+        NetDao.updateContactList(appContext, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s!=null){
+                    Result result=ResultUtils.getListResultFromJson(s,User.class);
+                    if(result!=null&&result.isRetMsg()){
+                        List<User> list= (List<User>) result.getRetData();
+                        L.e(TAG,"list="+list.size());
+                        if (list!=null&&list.size()>0){
+                            Map<String, User> userlist = new HashMap<String, User>();
+                            for (User user : list) {
+                                EaseCommonUtils.setAppUserInitialLetter(user);
+                                userlist.put(user.getMUserName(), user);
+                            }
+                            // save the contact list to cache
+                            getAppcontactList().clear();
+                            getAppcontactList().putAll(userlist);
+                            // save the contact list to database
+                            UserDao dao = new UserDao(appContext);
+                            List<User> users = new ArrayList<User>(userlist.values());
+                            dao.saveAppContactList(users);
+                            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
        
        new Thread(){
            @Override
