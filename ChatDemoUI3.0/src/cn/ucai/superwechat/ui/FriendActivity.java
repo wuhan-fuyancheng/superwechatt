@@ -1,11 +1,14 @@
 package cn.ucai.superwechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 
@@ -76,6 +79,15 @@ public class FriendActivity extends BaseActivity {
             MFGT.gotoChat(this,user.getMUserName());
                 break;
             case R.id.bt_friend_shiping:
+                if (!EMClient.getInstance().isConnected())
+                    Toast.makeText(this, R.string.not_connect_to_server, Toast.LENGTH_SHORT).show();
+                else {
+                    startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", user.getMUserName())
+                            .putExtra("isComingCall", false));
+                    // videoCallBtn.setEnabled(false);
+                    //inputMenu.hideExtendMenuContainer();
+                }
+
                 break;
         }
     }
