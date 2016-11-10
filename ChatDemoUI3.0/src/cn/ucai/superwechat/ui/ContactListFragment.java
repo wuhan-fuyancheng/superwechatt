@@ -120,6 +120,7 @@ public class ContactListFragment extends EaseContactListFragment {
         Map<String, User> m = SuperWeChatHelper.getInstance().getAppcontactList();
         if (m instanceof Hashtable<?, ?>) {
             m = (Map<String, User>) ((Hashtable<String, User>)m).clone();
+            m.remove(EMClient.getInstance().getCurrentUser());
         }
         setContactsMap(m);
         super.setUpView();
