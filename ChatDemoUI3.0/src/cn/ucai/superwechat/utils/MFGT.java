@@ -95,6 +95,13 @@ public class MFGT {
         startActivity(context, NewFriendsMsgActivity.class);
         context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
+    public static void gotoAddFriend(Activity context,String username){
+        Intent intent=new Intent();
+        intent.setClass(context,FriendActivity.class);
+        intent.putExtra(I.User.USER_NAME,username);
+        context.startActivity(intent);
+        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    }
     public static void gotoChat(Activity context,String username){
         Intent intent=new Intent();
         intent.setClass(context,ChatActivity.class);
