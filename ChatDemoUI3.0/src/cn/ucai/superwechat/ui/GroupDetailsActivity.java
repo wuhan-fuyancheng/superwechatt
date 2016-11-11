@@ -31,6 +31,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -52,6 +53,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.ucai.superwechat.utils.MFGT;
 import cn.ucar.superwechat.R;
 
 public class GroupDetailsActivity extends BaseActivity implements OnClickListener {
@@ -338,11 +340,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		}).start();
 	}
 
-	/**
-	 * 解散群组
-	 * 
-	 * @param groupId
-	 */
+
 	private void deleteGrop() {
 		final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
 		new Thread(new Runnable() {
@@ -524,9 +522,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		private int res;
 		public boolean isInDeleteMode;
 		private List<String> objects;
-
+		Context mContext=null;
 		public GridAdapter(Context context, int textViewResourceId, List<String> objects) {
 			super(context, textViewResourceId, objects);
+			mContext=context;
 			this.objects = objects;
 			res = textViewResourceId;
 			isInDeleteMode = false;
@@ -617,6 +616,12 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					convertView.findViewById(R.id.badge_delete).setVisibility(View.VISIBLE);
 				} else {
 					convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
+					holder.imageView.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							MFGT.gotoAddFriend((Activity) mContext,username);
+						}
+					});
 				}
 				final String st12 = getResources().getString(R.string.not_delete_myself);
 				final String st13 = getResources().getString(R.string.Are_removed);
