@@ -26,6 +26,9 @@ import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.domain.InviteMessage;
 import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
+import cn.ucai.superwechat.utils.CommonUtils;
+import cn.ucai.superwechat.utils.I;
+import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.ResultUtils;
 import cn.ucar.superwechat.R;
 
@@ -89,14 +92,23 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		
 		final InviteMessage msg = getItem(position);
 		if (msg != null) {
+			L.i("seach_username="+msg.getFrom());
 			NetDao.searchUser(context, msg.getFrom(), new OkHttpUtils.OnCompleteListener<String>() {
 				@Override
 				public void onSuccess(String s) {
 				if (s!=null){
 					Result result= ResultUtils.getResultFromJson(s, User.class);
-					User u= (User) result.getRetData();
-					EaseUserUtils.setUserNick(u.getMUserNick(),holder.name);
-					EaseUserUtils.setUserAvatar(context,u.getMUserName(),holder.avator);
+					if (result!=null&&result.isRetMsg()) {
+						User u = (User) result.getRetData();
+						L.e("mesg_user="+u.toString());
+						EaseUserUtils.setUserNick(u.getMUserNick(), holder.name);
+						EaseUserUtils.setUserAvatar(context, u.getMUserName(), holder.avator);
+					}
+					else {
+					//	CommonUtils.showShortToast(R.string.un);
+					}
+				}else {
+
 				}
 				}
 
@@ -105,7 +117,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
 				}
 			});
-
 			holder.agree.setVisibility(View.INVISIBLE);
 
 			if(msg.getGroupId() != null){ // show group name

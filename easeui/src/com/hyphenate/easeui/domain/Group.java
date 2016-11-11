@@ -15,6 +15,21 @@ public class Group implements Serializable{
 	private String mgroupName;
 	private String mgroupDescription;
 	private String mgroupOwner;
+	private String avatar;
+
+	public String getAvatar() {
+		String path="http://101.251.196.90:8000/SuperWeChatServerV2.0/downloadAvatar?name_or_hxid="+getMGroupId()+"&avatarType=group_icon&m_avatar_suffix="+getMAvatarSuffix();
+		return path;
+	}
+	public static  String  getAvatar(String hixd){
+		String path="http://101.251.196.90:8000/SuperWeChatServerV2.0/downloadAvatar?name_or_hxid="+hixd+"&avatarType=group_icon&m_avatar_suffix="+".jpg";
+		return path;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
 	private String mgroupLastModifiedTime;
 	private Integer mgroupMaxUsers;
 	private Integer mgroupAffiliationsCount;
@@ -137,7 +152,7 @@ public class Group implements Serializable{
 	}
 	
 	public String getMAvatarSuffix() {
-		return mavatarSuffix;
+		return mavatarSuffix==null?".jpg":mavatarSuffix;
 	}
 	public void setMAvatarSuffix(String mavatarSuffix) {
 		this.mavatarSuffix = mavatarSuffix;
